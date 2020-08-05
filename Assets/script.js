@@ -64,8 +64,30 @@ $('.saveBtn').on("click", function() {
     var data = $(this).val()
     console.log("Button hour pressed: " + data)
 
-    var thisTextArea = $('textarea').val()
-    // var text = thisTextArea.val()
-    // console.log(text)
-    console.log(thisTextArea)
+    console.log();
+
+    var text = $(this).siblings("textarea").val()
+    console.log(text)
+
+    localStorage.setItem(data, text)
+})
+
+$(document).ready(function() {
+    // var storedText = localStorage.length
+    // console.log(storedText)
+
+    for (var i=0; i < localStorage.length; i++) {
+        var dataValue = localStorage.key(i)
+        var storedText = localStorage.getItem(dataValue)
+        console.log(dataValue)
+        var thing = $(dataValue)
+        console.log(thing)
+        console.log(storedText)
+
+        var textToChange = $("textarea").find(`[data-value="${dataValue}"]`)
+        textToChange.text(storedText)
+        console.log(textToChange)
+    }
+
+    // console.log(localStorage.getItem(11))
 })
