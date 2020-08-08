@@ -15,7 +15,7 @@ console.log("current hour: " + time)
 function renderTimeBlocks() {
 
     // loop that generates time blocks between 6 AM to 9 PM
-    // Too change earliest or latest hour, change for loop parameters
+    // To change earliest or latest hour, change "for loop" parameters
     for (var i=6; i <= 21; i++) {
         var newRow = $("<div class='row'>")
         var newHour = $("<p class='hour col-sm-2'>")
@@ -34,7 +34,7 @@ function renderTimeBlocks() {
             var newBlock = $("<textarea class='time-block col-sm-8 future'>")
         }
         //Give the block an appropriate data value
-        newBlock.attr("data-value", i)
+        newBlock.attr("id", i)
 
         // Displays current time
         if (i <= 11) {
@@ -46,6 +46,13 @@ function renderTimeBlocks() {
         else {
             var j = i - 12
             newHour.text(j + " PM")
+        }
+
+        //Generates Saved Text
+        var dataValue = localStorage.getItem(i)
+        if (dataValue != null) {
+            console.log(dataValue)
+            newBlock.text(dataValue)
         }
 
         // Appends elements to row and places it in container
@@ -62,32 +69,11 @@ renderTimeBlocks()
 // Listen for Save Button press and save text area
 $('.saveBtn').on("click", function() {
     var data = $(this).val()
-    console.log("Button hour pressed: " + data)
+    var text = $(this).siblings("textarea").val().trim()
+    if(text != "") {
+        console.log("Button hour pressed: " + data)
+        console.log("Saved text: " + text)
 
-    console.log();
-
-    var text = $(this).siblings("textarea").val()
-    console.log(text)
-
-    localStorage.setItem(data, text)
-})
-
-$(document).ready(function() {
-    // var storedText = localStorage.length
-    // console.log(storedText)
-
-    for (var i=0; i < localStorage.length; i++) {
-        var dataValue = localStorage.key(i)
-        var storedText = localStorage.getItem(dataValue)
-        console.log(dataValue)
-        var thing = $(dataValue)
-        console.log(thing)
-        console.log(storedText)
-
-        var textToChange = $("textarea").find(`[data-value="${dataValue}"]`)
-        textToChange.text(storedText)
-        console.log(textToChange)
+        localStorage.setItem(data, text)
     }
-
-    // console.log(localStorage.getItem(11))
 })
